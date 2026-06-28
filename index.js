@@ -122,12 +122,7 @@ async function run() {
     // user related api end here +*+*+*+*+*+*+*+*+**+*
     // Books related api Start here +*+*+*+*+*+*+*+*+**+*
     // post book by librarian
-    app.post("/api/books", verifyToken, librarianVerify, async (req, res) => {
-      const book = req.body;
-      const payload = {
-        ...book,
-        createdAt: new Date(),
-      };
+    
 
       const result = await bookCollection.insertOne(payload);
 
