@@ -181,20 +181,17 @@ async function run() {
       },
     );
 
-    // get all books for homepage (non-secure)
-    // ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
-    // get all books for homepage with Search & Filter (non-secure)
-    // get all books for homepage with Search & Filter & Pagination (public only)
-   // Route to fetch books for the public homepage with search, filtering, and pagination
+  
+   // Route to fetch books for the public homepage
     app.get("/api/public/books", async (req, res) => {
       try {
-        // Extract query parameters with default pagination values (page 1, limit 8 books per page)
+        
         const { search, category, fee, page = 1, limit = 8 } = req.query;
         
-        // Base query: Only fetch books that are approved for public viewing
+        // Base query: 
         let query = { status: "approved" };
 
-        // 1. Search Logic: Search for matches in either 'title' or 'author' (case-insensitive)
+        // 1. Search Logic:
         if (search) {
           query.$or = [
             { title: { $regex: search, $options: "i" } },
