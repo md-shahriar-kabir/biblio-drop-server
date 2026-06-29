@@ -538,7 +538,10 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
     
 
     //user review get api
-  
+    app.get ('/api/user/review',  async(req,res)=>{
+      const result = await userReviewCollection.find().toArray()
+      res.send(result)
+    })
     //user review post api
     app.post('/api/user/review', verifyToken, async(req,res)=>{
       const body = req.body
