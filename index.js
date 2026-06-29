@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8000;
 const cors = require("cors");
+
 require("dotenv").config();
 app.use(cors());
 app.use(express.json());
@@ -221,7 +222,7 @@ async function run() {
           }
         }
 
-        // --- Pagination Logic ---
+        // --- Pagination Part ---
         
         // Parse strings to integers for mathematical operations
         const pageNumber = parseInt(page);
@@ -251,7 +252,6 @@ async function run() {
         res.status(500).send({ message: "Failed to fetch books" });
       }
     });
-    // ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 
     // get single book by id (for details page)
     app.get("/api/public/books/:id", async (req, res) => {
@@ -263,24 +263,6 @@ async function run() {
       res.send(result);
     });
 
-    // edit librarians's book by id
-
-    // app.patch("/api/books/:id",verifyToken,librarianVerify, async (req, res) => {
-    //       const id = req.params.id;
-    //       const status = req.body.status;
-    //       const filter = { _id: new ObjectId(id) };
-    //       const updateDoc = {
-    //         $set: {
-    //           status: "unpublish",
-    //         },
-    //       };
-    //       const result = await bookCollection.updateOne(filter, updateDoc);
-
-    //       res.send(result);
-    //     });
-
-    // manage books by admin *************
-    //                       *************
 
     // update user ordered books status by book id ( only admin can change status)
     app.patch(
@@ -317,8 +299,8 @@ async function run() {
       },
     );
 
-    // Books related api end here +*+*+*+*+*+*+*+*+**+*
-    // Payment related api start here +*+*+*+*+*+*+*+*+**+*
+    // Books and payment API
+
     app.post("/api/payment", async (req, res) => {
       const order = req.body;
       const filter = { sessionId: order?.sessionId };
@@ -337,14 +319,7 @@ async function run() {
     });
 
 
-
-
-
-    // Payment related api end here +*+*+*+*+*+*+*+*+**+*
-
-// Librarian Orders API (Dashboard) start++++++++++++++++++++
-
-
+// Librarian Orders API 
 
 app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) => {
       try {
@@ -409,7 +384,7 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
         res.status(500).send({ message: "Failed to fetch orders" });
       }
     });
-    // update order status by librarianVerify
+  
 
 
     // admin all order can see
@@ -511,8 +486,8 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
 
 
 
-    // Booking delivery related api start here +*+*+*+*+*+*+*+*+**+*
-    // Booking delivery related api start here +*+*+*+*+*+*+*+*+**+*
+    // Booking delivery related api
+  
     app.get("/api/my/order", async (req, res) => {
       try {
         const userId = req.query.userid;
@@ -559,9 +534,9 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
         res.status(500).send({ message: "Failed to fetch orders" });
       }
     });
-    // Booking related delivery api end here +*+*+*+*+*+*+*+*+**+*
+
     
-// user review section api start (((((((((((((((((((((())))))))))))))))))))))
+
     //user review get api
     app.get ('/api/user/review',  async(req,res)=>{
       const result = await userReviewCollection.find().toArray()
@@ -603,11 +578,6 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
 
       res.send(result);
     });
-  
-
-
-// user review section api end (((((((((((((((((((((())))))))))))))))))))))
-
 
 
     // Send a ping to confirm a successful connection
