@@ -10,7 +10,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const { jwtVerify, createRemoteJWKSet } = require("jose-cjs");
 const uri = process.env.MONGODB_URI;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -37,7 +36,6 @@ const verifyToken = async (req, res, next) => {
     const { payload } = await jwtVerify(token, JWKS);
     req.user = payload;
 
-    // console.log("payload", payload);
     next();
   } catch (error) {
     console.log(error);
@@ -91,7 +89,6 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    // user related api start here +*+*+*+*+*+*+*+*+**+*
     // get all users (admin)
     app.get("/api/users",  async (req, res) => {
       const result = await userCollection.find().toArray();
@@ -119,8 +116,7 @@ async function run() {
 
       res.send(result);
     });
-    // user related api end here +*+*+*+*+*+*+*+*+**+*
-    // Books related api Start here +*+*+*+*+*+*+*+*+**+*
+
     // post book by librarian
     app.post("/api/books", verifyToken, librarianVerify, async (req, res) => {
       const book = req.body;
