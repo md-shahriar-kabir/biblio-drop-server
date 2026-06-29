@@ -516,7 +516,10 @@ app.get("/api/librarian/orders", verifyToken, librarianVerify, async (req, res) 
             },
 
             {
-             
+              $unwind: {
+                path: "$bookDetails",
+                preserveNullAndEmptyArrays: true,
+              },
             },
 
             {
