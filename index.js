@@ -147,17 +147,7 @@ async function run() {
     });
 
     //delete librarian's book by id
-    app.delete(
-      "/api/books/:id",
-      verifyToken,
-      librarianVerify,
-      async (req, res) => {
-        const id = req.params.id;
-        const filter = { _id: new ObjectId(id) };
-        const result = await bookCollection.deleteOne(filter);
-
-        res.send(result);
-      },
+    
     );
 
     // edit librarians's book by id
